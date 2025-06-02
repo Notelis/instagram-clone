@@ -20,3 +20,7 @@ Route::get('/feed', function () {
 Route::get('/photos/{photo}', function (Photo $photo) {
     return view('photos.feed', compact('photo'));
 })->name('photos.feed');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
+});

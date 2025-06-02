@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('photo_id'); // Disesuaikan dari "post_id" ke "photo_id"
             $table->timestamps();
 
-            // Set primary key gabungan untuk mencegah user like lebih dari 1x
-            $table->primary(['user_id', 'post_id']);
+            // Primary key gabungan: user tidak bisa like lebih dari 1x
+            $table->primary(['user_id', 'photo_id']);
 
-            // Foreign key
+            // Foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('photo_id')->references('id')->on('photos')->onDelete('cascade');
         });
     }
 

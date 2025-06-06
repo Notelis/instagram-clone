@@ -29,5 +29,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    
+    // show profile user yang sedang login
+    // endpoint: GET /api/profile
+    public function show(Request $request)
+    {
+        return response()->json($request->user());
+    }
 }

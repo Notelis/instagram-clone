@@ -17,8 +17,7 @@ class AuthController extends Controller
         // validasi input yang dikirim 
         // laravel validator bakal cek semua rule ini sebelum lanjut ke proses selanjutnya
         $request->validate([
-            'name' => 'required|string|max:30', 
-
+        
             'username' => 'required|string|max:30|unique:users',
             // required = wajib ada, string = harus berupa text, max:30 = maksimal 30 karakter sesuai ketentuan instagram
             // unique:users cek ke table users, pastikan username ini belum ada yang pake
@@ -37,7 +36,6 @@ class AuthController extends Controller
         // laravel nanti otomatis isi created_at dan updated_at
         $user = User::create([
             // ambil value dari field 'username', 'email', 'password' di request
-            'name' => $request->name,
             'username' => $request->username, 
             'email' => $request->email, 
             'password' => Hash::make($request->password),  // Hash::make() menggunakan bcrypt untuk encrypt password

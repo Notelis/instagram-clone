@@ -30,11 +30,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    // show profile user berdasarkan username
+    // show profile user berdasarkan username (public)
     // endpoint: GET /api/profile/usn
     public function showByUsername($username)
     {
-        return response()->json($request->user());
         $user = \App\Models\User::where('username', $username)->first();
 
         if (!$user) {
@@ -43,5 +42,6 @@ class ProfileController extends Controller
 
         return response()->json($user);
     }
+
 
 }

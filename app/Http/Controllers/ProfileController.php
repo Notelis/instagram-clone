@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -30,15 +29,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function showByUsername($username)
+    // show profile user yang sedang login
+    // endpoint: GET /api/profile
+    public function show(Request $request)
     {
-        $user = \App\Models\User::where('username', $username)->first();
-
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        return response()->json($user);
+        return response()->json($request->user());
     }
-
 }

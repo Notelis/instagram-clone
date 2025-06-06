@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('username')->unique()->after('name');
-            $table->text('bio')->nullable()->after('email');
+            $table->text('bio')->nullable()->after('password');
         });
     }
-   
+
     /**
      * Reverse the migrations.
      */
-    public function down()
+        public function down()
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['username', 'bio']);
         });
     }
-
 };

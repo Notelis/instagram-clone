@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PhotoController;
 use App\Models\Photo;
+
+Route::get('/', function () {
+    return view('test');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,3 +29,4 @@ Route::get('/photos/{photo}', function (Photo $photo) {
 Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
 });
+

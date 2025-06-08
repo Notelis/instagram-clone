@@ -23,4 +23,9 @@ class PhotoController extends Controller
 
         return redirect()->back()->with('success', 'Photo uploaded!');
     }
+    public function show(Post $post)
+        {
+        $post->loadCount('likes'); 
+        return view('posts.show', compact('post'));
+        }
 }

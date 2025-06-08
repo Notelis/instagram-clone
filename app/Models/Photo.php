@@ -10,4 +10,8 @@ class Photo extends Model
         'caption',
         'image_path',
     ];
+    public function likes()
+    {
+    return $this->belongsToMany(User::class, 'likes')->withTimestamps();
+    }
 }

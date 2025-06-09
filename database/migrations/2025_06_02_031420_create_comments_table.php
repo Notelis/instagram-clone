@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->foreignId('photo_id')->constrained()->onDelete('cascade'); 
-            $table->text('comment_text'); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('photo_id')->constrained()->onDelete('cascade'); // asumsi post = photo
+            $table->text('comment_text');
             $table->timestamps();
         });
     }

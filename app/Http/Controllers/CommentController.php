@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Photo;
@@ -9,16 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function index($photoId)
-    {
-        $comments = Comment::where('photo_id', $photoId)->with('user')->latest()->get();
-        return response()->json($comments);
-    }
-
     public function store(Request $request, $photoId)
     {
         $request->validate([
-            'comment_text' => 'required|string|max:255',
+            'comment_text' => 'required|string|max:1000',
         ]);
 
         $comment = Comment::create([
@@ -27,41 +19,36 @@ class CommentController extends Controller
             'comment_text' => $request->comment_text,
         ]);
 
-        return response()->json([
-            'message' => 'Komentar berhasil ditambahkan',
-            'comment' => $comment->load('user'),
-        ], 201);
+        return response()->json($comment, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
-        $comment = Comment::findOrFail($id);
-
-        if ($comment->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('update', $comment); // Optional jika pakai policy
 
         $request->validate([
-            'comment_text' => 'required|string|max:255',
+            'comment_text' => 'required|string|max:1000',
         ]);
 
         $comment->update([
             'comment_text' => $request->comment_text,
         ]);
 
-        return response()->json(['message' => 'Komentar berhasil diperbarui', 'comment' => $comment]);
+        return response()->json($comment);
     }
 
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        $comment = Comment::findOrFail($id);
-
-        if ($comment->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('delete', $comment); // Optional jika pakai policy
 
         $comment->delete();
 
-        return response()->json(['message' => 'Komentar berhasil dihapus']);
+        return response()->json(['message' => 'Comment deleted']);
+    }
+
+    public function index($photoId)
+    {
+        $comments = Comment::where('photo_id', $photoId)->with('user')->latest()->get();
+        return response()->json($comments);
     }
 }

@@ -14,10 +14,4 @@ class Photo extends Model
     {
     return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
 }

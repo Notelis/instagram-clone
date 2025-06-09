@@ -13,4 +13,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']); 
     Route::put('/profile/bio', [ProfileController::class, 'updateBio']); 
+
+    // Comment routes
+    Route::get('/photos/{photo}/comments', [CommentController::class, 'index']);
+    Route::post('/photos/{photo}/comments', [CommentController::class, 'store']);
+    Route::put('/comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 });

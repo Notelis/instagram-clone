@@ -24,6 +24,7 @@ Route::get('/feed', function () {
     $photos = Photo::latest()->get(); // newest first
     return view('photos.feed', compact('photos'));
 })->name('photos.feed');
+
 Route::get('/photos/{photo}', function (Photo $photo) {
     return view('photos.feed', compact('photo'));
 })->name('photos.feed');

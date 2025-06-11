@@ -10,9 +10,9 @@ Route::get('/', function () {
     return view('test');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+    //return view('welcome');
+//});
 
 Route::get('/upload', function () {
     return view('upload');

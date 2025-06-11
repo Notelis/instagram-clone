@@ -16,4 +16,14 @@ class Photo extends Model
     }
 
 
+     public function savedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'saved_photos')->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

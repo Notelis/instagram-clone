@@ -34,5 +34,11 @@
 
         <button type="submit">Upload</button>
     </form>
+
+    <br></br>
+    <button onclick="window.location.href='/feed';">
+    Feed
+    </button>
+
 </body>
 </html>

@@ -1,12 +1,41 @@
-use App\Services\ArchiveService;
+<?php
 
-public function archive($id, ArchiveService $archiveService)
+use App\Models\Photo;
+
+class ArchiveController extends Controller
 {
-    $post = Post::findOrFail($id);
+    public function archive($id)
+    {
+        $photo = Photo::findOrFail($id);
 
-    if ($post->user_id != auth()->id()) abort(403);
+        if ($photo->user_id != auth()->id()) {
+            abort(403);
+        }
 
-    $archiveService->archive($post);
+        $photo->is_archived = true;
+        $photo->save();
 
-    return redirect()->back()->with('status', 'Diarsipkan!');
+        return redirect()->back()->with('status', 'Foto diarsipkan!');
+    }
+
+    public function unarchive($id)
+    {
+        $photo = Photo::findOrFail($id);
+
+        if ($photo->user_id != auth()->id()) {
+            abort(403);
+        }
+
+        $photo->is_archived = false;
+        $photo->save();
+
+        return redirect()->back()->with('status', 'Foto dibuka dari arsip!');
+    }
+
+    public function archivedPhotos()
+    {
+        $photos = Photo::where('user_id', auth()->id())->where('is_archived', true)->get();
+
+        return view('photos.archived', compact('photos'));
+    }
 }

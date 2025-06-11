@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('photos', function (Blueprint $table) {
-            $table->id();
+            $table->id('photo_id');
             $table->string('caption')->nullable();
             $table->string('image_path'); // to store the photo file name
             $table->timestamps();

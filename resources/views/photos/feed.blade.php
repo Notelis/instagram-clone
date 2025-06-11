@@ -14,5 +14,10 @@
             <small>Uploaded at: {{ $photo->created_at->format('Y-m-d H:i') }}</small>
         </div>
     @endforeach
+
+    <button onclick="window.location.href='/upload';">
+    Upload
+    </button>
+    
 </body>
 </html>

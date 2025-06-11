@@ -37,7 +37,7 @@
 
     <br></br>
     <button onclick="window.location.href='/feed';">
-    Go to Feed
+    Feed
     </button>
 
 </body>

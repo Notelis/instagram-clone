@@ -6,22 +6,15 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhotoController;
 use App\Models\Photo;
 
-// redirect root to login
-Route::get('/', function () {
-    return redirect('/login');
-});
-
-// authentication routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout']);
 
-// protected routes
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    Route::put('/profile/bio', [UserController::class, 'updateBio'])->name('profile.bio');
+    Route::get('/profile', [UserController::class, 'showProfile']);
+    Route::post('/profile/bio', [UserController::class, 'updateBio']);
 });
 
 //Route::get('/', function () {

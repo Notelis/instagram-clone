@@ -9,73 +9,48 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLogin()
-    {
-        if (Auth::check()) {
-            return redirect('/profile');
-        }
+    public function showLogin() {
         return view('auth.login');
     }
 
-    public function showRegister()
-    {
-        if (Auth::check()) {
-            return redirect('/profile');
-        }
-        return view('auth.register');
-    }
-
-    public function register(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string|unique:users|max:255|min:3',
-            'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        return redirect('/profile')->with('success', 'Account created successfully!');
-    }
-
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $credentials = $request->validate([
-            'login' => ['required'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Check if login is email or username
-        $loginType = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        
-        $loginData = [
-            $loginType => $credentials['login'],
-            'password' => $credentials['password']
-        ];
-
-        if (Auth::attempt($loginData)) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/profile');
         }
 
-        return back()->withErrors([
-            'login' => 'Invalid credentials.',
-        ])->withInput($request->except('password'));
+        return back()->withErrors(['email' => 'Invalid credentials.']);
     }
 
-    public function logout(Request $request)
-    {
+    public function showRegister() {
+        return view('auth.register');
+    }
+
+    public function register(Request $request) {
+        $validated = $request->validate([
+            'username' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        User::create([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect('/login')->with('success', 'Account created! Please login.');
+    }
+
+    public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect('/login');
     }
 }

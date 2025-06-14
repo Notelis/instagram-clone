@@ -18,9 +18,5 @@
     <button onclick="window.location.href='/upload';">
     Upload
     </button>
-<<<<<<< HEAD
-=======
-    
->>>>>>> 297775dd93c9415bc007f0b6d9f9ea627a804d6b
 </body>
 </html>

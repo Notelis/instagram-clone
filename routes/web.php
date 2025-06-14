@@ -19,9 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/bio', [UserController::class, 'updateBio']);
 });
 
-//Route::get('/', function () {
-    //return view('welcome');
-//});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/upload', function () {
     return view('upload');
@@ -53,4 +53,3 @@ Route::middleware('auth')->group(function () {
     Route::post('/photos/{id}/unsave', [SaveController::class, 'unsave']);
     Route::get('/saved-photos', [SaveController::class, 'savedPhotos']);
 });
-

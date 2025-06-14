@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('photo_id');
+
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('photo_id')->constrained()->onDelete('cascade'); // asumsi post = photo
             $table->text('comment_text');

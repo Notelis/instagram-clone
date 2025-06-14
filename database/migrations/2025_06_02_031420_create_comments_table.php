@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('saved_photos', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('photo_id');
-            $table->foreign('photo_id')->references('photo_id')->on('photos')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('photo_id')->constrained()->onDelete('cascade'); // asumsi post = photo
+            $table->text('comment_text');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('saved_posts');
+        Schema::dropIfExists('comments');
     }
 };

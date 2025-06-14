@@ -21,7 +21,7 @@ class PhotoController extends Controller
             'caption' => $request->input('caption'),
         ]);
 
-        return redirect()->back()->with('success', 'Photo uploaded!');
+        return redirect()->back()->with('success', 'Photo Uploaded!');
     }
     public function show(Post $post)
         {

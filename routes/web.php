@@ -53,3 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/photos/{id}/unsave', [SaveController::class, 'unsave']);
     Route::get('/saved-photos', [SaveController::class, 'savedPhotos']);
 });
+
+Route::middleware('auth')->group(function () {
+    Route::post('/photos/{photo}/comments', [CommentController::class, 'store'])->name('comments.store');
+});

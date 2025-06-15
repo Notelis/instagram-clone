@@ -14,6 +14,11 @@ class User extends Authenticatable
 
     use HasFactory, Notifiable;
 
+    // Laravel uses "id" by default, but we want to use "user_id"
+    protected $table = 'users';
+    protected $primaryKey = 'user_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     /**
      * The attributes that are mass assignable.

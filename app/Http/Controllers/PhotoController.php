@@ -11,7 +11,7 @@ class PhotoController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'caption' => 'nullable|string|max:255',
+            'caption' => 'nullable|string|max:255', 
         ]);
 
         $path = $request->file('image')->store('photos', 'public');

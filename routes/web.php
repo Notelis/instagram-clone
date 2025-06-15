@@ -7,6 +7,8 @@ use App\Http\Controllers\PhotoController;
 use App\Models\Photo;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\SaveController;
+use App\Http\Controllers\CommentController;
+
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -55,5 +57,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/photos/{photo}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/photos/{photo_id}/comments', [CommentController::class, 'store'])->name('comments.store');
 });

@@ -19,9 +19,11 @@ class PhotoController extends Controller
         Photo::create([
             'image_path' => $path,
             'caption' => $request->input('caption'),
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Photo Uploaded!');
+
     }
     public function show(Post $post)
         {

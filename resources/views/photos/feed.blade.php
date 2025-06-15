@@ -27,9 +27,9 @@
             @endforelse
 
             @auth
-                <form action="{{ route('comments.store', $photo->id) }}" method="POST">
+                <form action="{{ route('comments.store', ['photo_id' => $photo->id]) }}" method="POST">
                     @csrf
-                    <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea><br>
+                    <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
                     <button type="submit">Kirim Komentar</button>
                 </form>
             @endauth

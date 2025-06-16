@@ -34,8 +34,9 @@ Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 // Menampilkan feed (semua foto)
 Route::get('/feed', function () {
     $photos = Photo::with(['comments.user'])->latest()->get();
-    return view('photos.feed', compact('photos'));
-})->name('photos.feed');
+    $user = Auth::user();
+    return view('photos.feed', compact('photos', 'user'));
+})->middleware('auth')->name('photos.feed');
 
 // Like
 Route::middleware('auth')->post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');

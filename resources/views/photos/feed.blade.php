@@ -15,6 +15,12 @@
 
     <img src="{{ asset('images/feed-icon.png') }}" alt="My Image" width="300">
 
+    <form method="GET" action="{{ route('photos.feed') }}">
+    <input type="text" name="query" value="{{ $query ?? '' }}" placeholder="Search" style="width: 200px;">
+    <button type="submit">Search</button>
+    </form>
+    <br>
+
     @foreach ($photos as $photo)
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
             <img src="{{ asset('storage/' . $photo->image_path) }}" alt="Photo" style="max-width: 300px;"><br>

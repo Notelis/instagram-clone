@@ -27,6 +27,14 @@
             <p><strong>Caption:</strong> {{ $photo->caption }}</p>
             <small>Uploaded at: {{ $photo->created_at->format('Y-m-d H:i') }}</small>
 
+            @auth
+            <form action="{{ route('photos.like', ['photo' => $photo->id]) }}" method="POST">
+            @csrf
+            <button type="submit">❤️ Like ({{ $photo->likes->count() }})</button>
+        </form>
+        @endauth
+    </div>
+
             <hr>
 
             <h4>Komentar:</h4>

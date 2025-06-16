@@ -46,7 +46,7 @@ Route::get('/feed', function () {
 })->middleware('auth')->name('photos.feed');
 
 // Like
-Route::middleware('auth')->post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
+Route::post('/photos/{photo}/like', [LikeController::class, 'toggleLike'])->name('photos.like');
 
 // Archive, Save, Comment
 Route::middleware('auth')->group(function () {

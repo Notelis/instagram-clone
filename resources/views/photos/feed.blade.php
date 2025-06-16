@@ -6,7 +6,6 @@
 <body>
     <img src="{{ asset('images/feed-icon.png') }}" alt="My Image" width="300">
 
-
     @foreach ($photos as $photo)
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
             <img src="{{ asset('storage/' . $photo->image_path) }}" alt="Photo" style="max-width: 300px;"><br>
@@ -27,11 +26,13 @@
             @endforelse
 
             @auth
-                <form action="{{ route('comments.store', ['photo_id' => $photo->id]) }}" method="POST">
+                @if (isset($photo->id))
+                <form action="{{ route('comments.store', ['photo' => $photo->id]) }}" method="POST">
                     @csrf
                     <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
                     <button type="submit">Kirim Komentar</button>
                 </form>
+                @endif
             @endauth
         </div>
     @endforeach

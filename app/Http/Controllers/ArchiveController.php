@@ -1,6 +1,9 @@
 <?php
 
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 use App\Models\Photo;
+use Illuminate\Routing\Controller;
 
 class ArchiveController extends Controller
 {

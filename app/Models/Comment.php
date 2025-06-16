@@ -10,18 +10,18 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'photo_id',
-        'comment_text',
+        'body', 'photo_id', 'user_id',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    // Relasi ke foto
     public function photo()
     {
         return $this->belongsTo(Photo::class);
+    }
+
+    // Relasi ke user
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

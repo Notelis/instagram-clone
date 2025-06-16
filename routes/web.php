@@ -4,58 +4,54 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PhotoController;
-use App\Models\Photo;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\SaveController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+use App\Models\Photo;
 
-
+// Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
+// Profile (hanya jika login)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'showProfile']);
     Route::post('/profile/bio', [UserController::class, 'updateBio']);
 });
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+// Upload
 Route::get('/upload', function () {
     return view('upload');
 });
 
+// Menyimpan foto
 Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 
+// Menampilkan feed (semua foto)
 Route::get('/feed', function () {
-    $photos = Photo::latest()->get(); // newest first
+    $photos = Photo::with(['comments.user'])->latest()->get();
     return view('photos.feed', compact('photos'));
 })->name('photos.feed');
 
-Route::get('/photos/{photo}', function (Photo $photo) {
-    return view('photos.feed', compact('photo'));
-})->name('photos.feed');
+// Like
+Route::middleware('auth')->post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
 
-Route::middleware('auth')->group(function () {
-    Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
-});
-
+// Archive, Save, Comment
 Route::middleware('auth')->group(function () {
     // Archive
-    Route::post('/photos/{id}/archive', [ArchiveController::class, 'archive']);
-    Route::post('/photos/{id}/unarchive', [ArchiveController::class, 'unarchive']);
+    Route::post('/photos/{photo}/archive', [ArchiveController::class, 'archive']);
+    Route::post('/photos/{photo}/unarchive', [ArchiveController::class, 'unarchive']);
     Route::get('/archived-photos', [ArchiveController::class, 'archivedPhotos']);
 
     // Save
-    Route::post('/photos/{id}/save', [SaveController::class, 'save']);
-    Route::post('/photos/{id}/unsave', [SaveController::class, 'unsave']);
+    Route::post('/photos/{photo}/save', [SaveController::class, 'save']);
+    Route::post('/photos/{photo}/unsave', [SaveController::class, 'unsave']);
     Route::get('/saved-photos', [SaveController::class, 'savedPhotos']);
-});
 
-Route::middleware('auth')->group(function () {
-    Route::post('/photos/{photo_id}/comments', [CommentController::class, 'store'])->name('comments.store');
+    // Comment (pakai route model binding Photo)
+    Route::middleware('auth')->post('/photos/{photo}/comments', [CommentController::class, 'store'])->name('comments.store');
 });

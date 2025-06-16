@@ -4,6 +4,15 @@
     <title>Instagram Feed</title>
 </head>
 <body>
+
+    @auth
+    <p>Welcome, {{ auth()->user()->username }}</p>
+    @endauth
+
+    @guest
+        <p>guest() check: ❌ You are not logged in</p>
+    @endguest
+
     <img src="{{ asset('images/feed-icon.png') }}" alt="My Image" width="300">
 
     @foreach ($photos as $photo)
@@ -36,7 +45,7 @@
             @endauth
         </div>
     @endforeach
-
+    
     <button onclick="window.location.href='/upload';">
     Upload
     </button>

@@ -13,8 +13,8 @@ use App\Models\Photo;
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout']);
 
 // Profile (hanya jika login)
@@ -34,8 +34,9 @@ Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 // Menampilkan feed (semua foto)
 Route::get('/feed', function () {
     $photos = Photo::with(['comments.user'])->latest()->get();
-    return view('photos.feed', compact('photos'));
-})->name('photos.feed');
+    $user = Auth::user();
+    return view('photos.feed', compact('photos', 'user'));
+})->middleware('auth')->name('photos.feed');
 
 // Like
 Route::middleware('auth')->post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');

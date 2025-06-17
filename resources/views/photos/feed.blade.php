@@ -44,12 +44,12 @@
 
             <hr>
             <!-- degug photo -->
-            <p><strong>Debug ID Foto:</strong> {{ $photo->id ?? 'ID NULL' }}</p>
+            <p><strong>Debug ID Foto:</strong> {{ $photo->photo_id ?? 'ID NULL' }}</p>
 
             <h4>Komentar:</h4>
             @forelse ($photo->comments as $comment)
                 <p>
-                    <strong>{{ $comment->user->name }}</strong>: {{ $comment->body }}
+                    <strong>{{ $comment->user->username ?? 'User tidak ditemukan' }}</strong>: {{ $comment->comment_text }}
                     <br>
                     <small>{{ $comment->created_at->diffForHumans() }}</small>
                 </p>
@@ -60,7 +60,7 @@
             @auth
                 <form action="/photos/{{ $photo->photo_id }}/comments" method="POST">
                     @csrf
-                    <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
+                    <textarea name="comment_text" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
                     <button type="submit">Kirim Komentar</button>
                 </form>
             @endauth

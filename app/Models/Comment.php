@@ -16,7 +16,7 @@ class Comment extends Model
     // Relasi ke foto
     public function photo()
     {
-        return $this->belongsTo(Photo::class);
+        return $this->belongsTo(Photo::class, 'photo_id', 'photo_id');
     }
 
     // Relasi ke user

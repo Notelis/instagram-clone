@@ -19,7 +19,7 @@ class CommentController extends Controller
     Comment::create([
         'body' => $request->body,
         'user_id' => auth()->id(),
-        'photo_id' => $photo->id,
+        'photo_id' => $photo->photo_id,
     ]);
 
     return back()->with('success', 'Komentar berhasil ditambahkan!');

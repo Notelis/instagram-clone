@@ -58,7 +58,7 @@
             @endforelse
 
             @auth
-                <form action="/photos/{{ $photo->id }}/comments" method="POST">
+                <form action="/photos/{{ $photo->photo_id }}/comments" method="POST">
                     @csrf
                     <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
                     <button type="submit">Kirim Komentar</button>

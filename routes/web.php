@@ -33,7 +33,14 @@ Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 
 // Menampilkan feed (semua foto)
 Route::get('/feed', function () {
-    $photos = Photo::with(['comments.user'])->latest()->get();
+    $query = request('query');
+    // Jika ada query pencarian, filter foto berdasarkan caption
+    $photos = Photo::with(['comments.user'])
+        ->when($query, function ($q) use ($query) {
+            $q->where('caption', 'like', '%' . $query . '%');
+        })
+        ->latest()
+        ->get();
     $user = Auth::user();
     return view('photos.feed', compact('photos', 'user'));
 })->middleware('auth')->name('photos.feed');

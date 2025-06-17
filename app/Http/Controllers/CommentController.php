@@ -8,18 +8,21 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, Photo $photo) // pakai Photo $photo, bukan id
-    {
-        $request->validate([
-            'body' => 'required|string|max:1000',
-        ]);
+    public function store(Request $request, $photo)
+{
+    $photo = Photo::findOrFail($photo); // cari model berdasarkan ID
 
-        Comment::create([
-            'body' => $request->body,
-            'user_id' => auth()->id(),
-            'photo_id' => $photo->id, // tetap butuh id-nya untuk diisi
-        ]);
+    $request->validate([
+        'body' => 'required|string|max:1000',
+    ]);
 
-        return back()->with('success', 'Komentar berhasil ditambahkan!');
-    }
+    Comment::create([
+        'body' => $request->body,
+        'user_id' => auth()->id(),
+        'photo_id' => $photo->id,
+    ]);
+
+    return back()->with('success', 'Komentar berhasil ditambahkan!');
+}
+
 }

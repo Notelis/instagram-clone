@@ -14,6 +14,13 @@
     @endguest
 
     <img src="{{ asset('images/feed-icon.png') }}" alt="My Image" width="300">
+    @auth
+        <p style="color: green;">Login sebagai: {{ auth()->user()->name }}</p>
+    @endauth
+
+    @guest
+        <p style="color: red;">Kamu belum login. <a href="{{ route('login') }}">Klik di sini untuk login</a></p>
+    @endguest
 
     <form method="GET" action="{{ route('photos.feed') }}">
     <input type="text" name="query" value="{{ $query ?? '' }}" placeholder="Search" style="width: 200px;">
@@ -36,6 +43,8 @@
     </div>
 
             <hr>
+            <!-- degug photo -->
+            <p><strong>Debug ID Foto:</strong> {{ $photo->id ?? 'ID NULL' }}</p>
 
             <h4>Komentar:</h4>
             @forelse ($photo->comments as $comment)
@@ -49,13 +58,11 @@
             @endforelse
 
             @auth
-                @if (isset($photo->id))
-                <form action="{{ route('comments.store', ['photo' => $photo->id]) }}" method="POST">
+                <form action="/photos/{{ $photo->id }}/comments" method="POST">
                     @csrf
                     <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
                     <button type="submit">Kirim Komentar</button>
                 </form>
-                @endif
             @endauth
         </div>
     @endforeach

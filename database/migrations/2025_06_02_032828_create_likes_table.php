@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('likes', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('photo_id'); // Disesuaikan dari "post_id" ke "photo_id"
             $table->timestamps();
 
             // Primary key gabungan: user tidak bisa like lebih dari 1x
-            $table->primary(['user_id', 'photo_id']);
+            $table->unique(['user_id', 'photo_id']);
 
             // Foreign keys
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');

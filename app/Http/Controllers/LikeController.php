@@ -12,16 +12,20 @@ class LikeController extends Controller
     {
         $user = Auth::user();
 
-        $existingLike = Like::where('user_id', $user->id)
-                            ->where('photo_id', $photo->id)
+        if (!$user) {
+            return redirect()->back()->with('error', 'You must be logged in to like a photo.');
+        }
+
+        $existingLike = Like::where('user_id', $user->user_id)
+                            ->where('photo_id', $photo->photo_id)
                             ->first();
 
         if ($existingLike) {
             $existingLike->delete();
         } else {
             Like::create([
-                'user_id' => $user->id,
-                'photo_id' => $photo->id,
+                'user_id' => $user->user_id,
+                'photo_id' => $photo->photo_id,
             ]);
         }
 

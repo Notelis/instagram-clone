@@ -10,7 +10,7 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'body', 'photo_id', 'user_id',
+        'comment_text', 'photo_id', 'user_id',
     ];
 
     // Relasi ke foto
@@ -22,6 +22,6 @@ class Comment extends Model
     // Relasi ke user
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }

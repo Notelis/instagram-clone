@@ -13,11 +13,11 @@ class CommentController extends Controller
     $photo = Photo::findOrFail($photo); // cari model berdasarkan ID
 
     $request->validate([
-        'body' => 'required|string|max:1000',
+        'comment_text' => 'required|string|max:1000',
     ]);
 
     Comment::create([
-        'body' => $request->body,
+        'comment_text' => $request->comment_text,
         'user_id' => auth()->id(),
         'photo_id' => $photo->photo_id,
     ]);

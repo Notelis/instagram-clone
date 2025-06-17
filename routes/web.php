@@ -33,9 +33,9 @@ Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 
 // Menampilkan feed (semua foto)
 Route::get('/feed', function () {
-    $photos = Photo::with(['comments.user'])->latest()->get();
+    $photos = \App\Models\Photo::with(['comments.user'])->latest()->get(); // <== PENTING
     return view('photos.feed', compact('photos'));
-})->name('photos.feed');
+});
 
 // Like
 Route::middleware('auth')->post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');

@@ -5,6 +5,13 @@
 </head>
 <body>
     <img src="{{ asset('images/feed-icon.png') }}" alt="My Image" width="300">
+    @auth
+        <p style="color: green;">Login sebagai: {{ auth()->user()->name }}</p>
+    @endauth
+
+    @guest
+        <p style="color: red;">Kamu belum login. <a href="{{ route('login') }}">Klik di sini untuk login</a></p>
+    @endguest
 
     @foreach ($photos as $photo)
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
@@ -13,6 +20,8 @@
             <small>Uploaded at: {{ $photo->created_at->format('Y-m-d H:i') }}</small>
 
             <hr>
+            <!-- degug photo -->
+            <p><strong>Debug ID Foto:</strong> {{ $photo->id ?? 'ID NULL' }}</p>
 
             <h4>Komentar:</h4>
             @forelse ($photo->comments as $comment)
@@ -26,13 +35,11 @@
             @endforelse
 
             @auth
-                @if (isset($photo->id))
-                <form action="{{ route('comments.store', ['photo' => $photo->id]) }}" method="POST">
+                <form action="/photos/{{ $photo->id }}/comments" method="POST">
                     @csrf
                     <textarea name="body" rows="2" style="width: 100%;" placeholder="Tulis komentar..." required></textarea>
                     <button type="submit">Kirim Komentar</button>
                 </form>
-                @endif
             @endauth
         </div>
     @endforeach

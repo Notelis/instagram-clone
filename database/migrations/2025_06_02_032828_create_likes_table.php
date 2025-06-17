@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('likes', function (Blueprint $table) {
-            $table->id();
+            $table->id(); //nambahin id jadi primary key
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('photo_id'); // Disesuaikan dari "post_id" ke "photo_id"
             $table->timestamps();

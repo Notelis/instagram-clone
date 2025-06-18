@@ -33,11 +33,11 @@ Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 
 // Menampilkan feed (semua foto)
 Route::get('/feed', function () {
-    $query = request('query');
+    $search = request('search');
     // Jika ada query pencarian, filter foto berdasarkan caption
     $photos = Photo::with(['comments.user'])
-        ->when($query, function ($q) use ($query) {
-            $q->where('caption', 'like', '%' . $query . '%');
+        ->when($search, function ($q) use ($search) {
+            $q->where('caption', 'like', '%' . $search . '%');
         })
         ->latest()
         ->get();
@@ -53,14 +53,16 @@ Route::post('/photos/{photo}/like', [LikeController::class, 'toggleLike'])
 // Archive, Save, Comment
 Route::middleware('auth')->group(function () {
     // Archive
-    Route::post('/photos/{photo}/archive', [ArchiveController::class, 'archive']);
-    Route::post('/photos/{photo}/unarchive', [ArchiveController::class, 'unarchive']);
-    Route::get('/archived-photos', [ArchiveController::class, 'archivedPhotos']);
+    Route::post('/photos/{id}/archive', [ArchiveController::class, 'archive'])->name('photos.archive');
+    Route::post('/photos/{id}/unarchive', [ArchiveController::class, 'unarchive'])->name('photos.unarchive');
+    Route::get('/my/archived', [ArchiveController::class, 'myArchivedPhotos'])->name('photos.archived');
+    Route::get('/photos/archived', [ArchiveController::class, 'showArchivedPhotos'])->name('photos.archived');
 
     // Save
-    Route::post('/photos/{photo}/save', [SaveController::class, 'save']);
-    Route::post('/photos/{photo}/unsave', [SaveController::class, 'unsave']);
-    Route::get('/saved-photos', [SaveController::class, 'savedPhotos']);
+    Route::post('/photos/{photo}/save', [SaveController::class, 'save'])->name('photos.save');
+    Route::post('/photos/{photo}/unsave', [SaveController::class, 'unsave'])->name('photos.unsave');
+    Route::get('/photos/saved', [SaveController::class, 'showSavedPhotos'])->name('photos.saved');
+
 
     // Comment (pakai route model binding Photo)
     Route::middleware('auth')->post('/photos/{photo}/comments', [CommentController::class, 'store'])->name('comments.store');

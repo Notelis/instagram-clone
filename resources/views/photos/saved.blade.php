@@ -1,8 +1,14 @@
-<h2>Foto yang Disimpan</h2>
+<h2>📌 Gallery 📌</h2>
 
 @foreach ($photos as $photo)
-    <div style="margin-bottom: 10px;">
-        <strong>{{ $photo->caption }}</strong><br>
-        <small>Diupload oleh: {{ $photo->user->name ?? 'Tidak diketahui' }}</small>
+    <div>
+        <img src="{{ asset('storage/' . $photo->image_path) }}" style="max-width:300px;">
+        <p>{{ $photo->caption }}</p>
+        <form action="{{ route('photos.unsave', $photo->photo_id) }}" method="POST">
+                @csrf
+                <button type="submit">🗑️ Unsave</button>
+            </form>
     </div>
 @endforeach
+
+<a href="{{ route('photos.feed') }}">← Back to Feed</a>

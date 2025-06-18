@@ -7,7 +7,7 @@ use App\Models\Photo;
 
 class SaveController extends Controller
 {
-    public function save($id)
+        public function save($id)
     {
         $photo = Photo::findOrFail($id);
         auth()->user()->savedPhotos()->attach($photo);
@@ -20,13 +20,12 @@ class SaveController extends Controller
         $photo = Photo::findOrFail($id);
         auth()->user()->savedPhotos()->detach($photo);
 
-        return redirect()->back()->with('status', 'Foto dihapus dari simpanan!');
+        return redirect()->back()->with('status', 'Foto dibatalkan dari simpanan!');
     }
 
-    public function savedPhotos()
+    public function showSavedPhotos()
     {
-        $photos = auth()->user()->savedPhotos()->get();
-
+        $photos = auth()->user()->savedPhotos()->latest()->get();
         return view('photos.saved', compact('photos'));
     }
 }

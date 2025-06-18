@@ -15,6 +15,10 @@ class Photo extends Model
     'user_id',
     ];
 
+    protected $casts = [
+    'is_archived' => 'boolean',
+    ];
+
     // app/Models/Photo.php
     public function getRouteKeyName()
     {
@@ -37,6 +41,8 @@ class Photo extends Model
         return $this->hasMany(Comment::class, 'photo_id', 'photo_id');
     }
 
-    
-
+    public function savedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'photo_user', 'photo_id', 'user_id')->withTimestamps();
+    }
 }

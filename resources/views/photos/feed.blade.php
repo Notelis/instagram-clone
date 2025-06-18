@@ -7,7 +7,7 @@
             font-family: 'Segoe UI', sans-serif;
             background-color: #fafafa;
             margin: 0;
-            padding-bottom: 70px; /* ruang buat navbar bawah */
+            padding-bottom: 70px;
         }
 
         .navbar {
@@ -71,7 +71,6 @@
             padding: 5px 0;
         }
 
-        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -103,27 +102,33 @@
 </head>
 <body>
 
+    <!-- Navbar -->
     <div class="navbar">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
-        <strong style="font-size: 1.2em;">Instagram Feed</strong>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
+            <strong style="font-size: 1.2em;">Instagram Feed</strong>
+        </div>
+        <div>
+            @auth
+                👋 {{ auth()->user()->username }}
+            @else
+                <a href="{{ route('login') }}">Login</a>
+            @endauth
+        </div>
     </div>
-    <div>
-        @auth
-            👋 {{ auth()->user()->username }}
-        @else
-            <a href="{{ route('login') }}">Login</a>
-        @endauth
-    </div>
-</div>
 
+    <!-- Search bar -->
     <div class="search-bar">
         <form method="GET" action="{{ route('photos.feed') }}">
             <input type="text" name="query" value="{{ $query ?? '' }}" placeholder="Search">
             <button type="submit">Search</button>
         </form>
+        <form method="GET" action="{{ route('photos.archived') }}" style="margin-top: 10px;">
+            <button type="submit">📚 Archived Photos</button>
+        </form>
     </div>
 
+    <!-- Feed -->
     <div class="feed-grid">
         @foreach ($photos as $photo)
             <div class="photo-card">
@@ -138,11 +143,40 @@
                             @csrf
                             <button type="submit" class="like-button">❤️ Like ({{ $photo->likes->count() }})</button>
                         </form>
+
+                        <!-- Archive or Unarchive -->
+                        @if ($photo->user_id === auth()->id())
+                            @if ($photo->is_archived)
+                                <form action="{{ route('photos.unarchive', $photo->photo_id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">🗑️ Unarchive</button>
+                                </form>
+                            @else
+                                <form action="{{ route('photos.archive', $photo->photo_id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">🗂️ Archive</button>
+                                </form>
+                            @endif
+                        @endif
+
+                        <!-- Save or Unsave -->
+                        @if (auth()->user()->savedPhotos->contains($photo))
+                            <form action="{{ route('photos.unsave', $photo->photo_id) }}" method="POST">
+                                @csrf
+                                <button type="submit">🗑️ Unsave</button>
+                            </form>
+                        @else
+                            <form action="{{ route('photos.save', $photo->photo_id) }}" method="POST">
+                                @csrf
+                                <button type="submit">💾 Save</button>
+                            </form>
+                        @endif
                     @endauth
                 </div>
 
+                <!-- Komentar -->
                 <div class="comment-section">
-                    <h4 style="margin-top: 0;">Komentar:</h4>
+                    <h4>Komentar:</h4>
                     @forelse ($photo->comments as $comment)
                         <p><strong>{{ $comment->user->username ?? 'Anonim' }}</strong>: {{ $comment->comment_text }}<br>
                         <small>{{ $comment->created_at->diffForHumans() }}</small></p>
@@ -163,7 +197,7 @@
         @endforeach
     </div>
 
-    <!-- Bottom navbar -->
+    <!-- Bottom Nav -->
     <div class="bottom-nav">
         <button class="upload-button" onclick="window.location.href='/upload';">+</button>
     </div>

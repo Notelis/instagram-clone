@@ -21,6 +21,16 @@
         <button type="submit">Simpan Bio</button>
     </form>
 
+    <form method="GET" action="/feed" style="margin-top: 20px;">
+        @csrf
+        <button type="submit">Feed</button>
+    </form>
+
+    <form action="{{ route('photos.saved') }}" method="GET" style="margin-top: 20px;">
+    @csrf
+    <button type="submit">🖼️ Saved Photos</button>
+    </form>
+
     <form method="POST" action="/logout" style="margin-top: 20px;">
         @csrf
         <button type="submit">Logout</button>

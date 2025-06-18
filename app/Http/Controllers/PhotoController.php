@@ -7,6 +7,21 @@ use App\Models\Photo;
 
 class PhotoController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+
+        $photos = Photo::where('is_archived', false)
+            ->when($search, function ($query, $search) {
+                return $query->where('caption', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->get();
+
+        return view('photos.index', compact('photos'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -25,8 +40,9 @@ class PhotoController extends Controller
         return redirect()->back()->with('success', 'Photo Uploaded!');
 
     }
+    
     public function show(Post $post)
-        {
+    {
         $post->loadCount('likes'); 
         return view('posts.show', compact('post'));
         }

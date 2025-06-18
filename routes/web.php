@@ -17,6 +17,9 @@ Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout']);
 
+// profile from feed
+Route::get('/user/{username}', [UserController::class, 'showPublicProfile'])->name('user.profile');
+
 // Profile (hanya jika login)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'showProfile']);

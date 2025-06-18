@@ -75,5 +75,9 @@ class User extends Authenticatable
     return $this->hasMany(Comment::class);
 }
 
+public function photos()
+{
+    return $this->hasMany(\App\Models\Photo::class, 'user_id');
+}
 
 }

@@ -12,7 +12,8 @@ class PhotoController extends Controller
     {
         $search = $request->input('search');
 
-        $photos = Photo::where('is_archived', false)
+        $photos = Photo::with('user')
+            ->where('is_archived', false)
             ->when($search, function ($query, $search) {
                 return $query->where('caption', 'like', "%{$search}%");
             })

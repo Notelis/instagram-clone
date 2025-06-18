@@ -96,7 +96,7 @@
     <!-- Navbar -->
     <div class="navbar">
         <img src="{{ asset('images/feed-icon.png') }}" alt="Logo">
-        <strong>InstaClone</strong>
+        <strong>Instagram</strong>
     </div>
 
     <!-- Profile Card -->

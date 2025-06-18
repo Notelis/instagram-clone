@@ -3,27 +3,25 @@
 <head>
     <title>Instagram Feed</title>
 </head>
-<body>
-
-    @auth
-    <p>Welcome, {{ auth()->user()->username }}</p>
-    @endauth
-
-    @guest
-        <p>guest() check: ❌ You are not logged in</p>
-    @endguest
+<body>\
 
     <img src="{{ asset('images/feed-icon.png') }}" alt="My Image" width="300">
     @auth
-        <p style="color: green;">Login sebagai: {{ auth()->user()->name }}</p>
+        <p style="color: green;">Login sebagai: {{ auth()->user()->username }}</p>
     @endauth
 
     @guest
         <p style="color: red;">Kamu belum login. <a href="{{ route('login') }}">Klik di sini untuk login</a></p>
     @endguest
 
+    <form method="GET" action="/profile" style="margin-top: 20px;">
+        @csrf
+    <button type="submit">Profile</button>
+
+    <div style="margin-top: 20px;">
+        
     <form method="GET" action="{{ route('photos.feed') }}">
-    <input type="text" name="query" value="{{ $query ?? '' }}" placeholder="Search" style="width: 200px;">
+    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search" style="width: 200px;">
     <button type="submit">Search</button>
     </form>
     <br>
@@ -43,8 +41,6 @@
     </div>
 
             <hr>
-            <!-- degug photo -->
-            <p><strong>Debug ID Foto:</strong> {{ $photo->photo_id ?? 'ID NULL' }}</p>
 
             <h4>Komentar:</h4>
             @forelse ($photo->comments as $comment)
@@ -67,8 +63,9 @@
         </div>
     @endforeach
     
-    <button onclick="window.location.href='/upload';">
-    Upload
-    </button>
+    <form method="GET" action="/upload" style="margin-top: 20px;">
+        @csrf
+        <button type="submit">Upload</button>
+    </form>
 </body>
 </html>

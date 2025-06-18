@@ -15,12 +15,14 @@
     @endguest
 
     <form method="GET" action="/profile" style="margin-top: 20px;">
-        @csrf
+    @csrf
     <button type="submit">Profile</button>
-    
+    </form>
+
     <form method="GET" action="/upload" style="margin-top: 20px;">
         @csrf
-    <button type="submit">Upload</button>
+        <button type="submit">Upload</button>
+    </form>
 
     <div style="margin-top: 20px;">
         

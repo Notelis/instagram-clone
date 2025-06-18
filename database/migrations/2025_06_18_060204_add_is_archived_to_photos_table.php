@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('photos', function (Blueprint $table) {
-            //$table->boolean('is_archived')->default(false);     
+            $table->boolean('is_archived')->default(false);     
         });
     }
 

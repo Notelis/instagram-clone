@@ -26,10 +26,10 @@
         }
 
         .feed-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 20px;
-            max-width: 1000px;
+            max-width: 600px;
             margin: 20px auto;
             padding: 0 20px;
         }

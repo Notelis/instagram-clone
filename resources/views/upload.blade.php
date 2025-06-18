@@ -1,44 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Upload Photo</title>
+    <meta charset="UTF-8">
+    <title>Upload Photo - InstaClone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .navbar img {
+            height: 30px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .feedback {
+            color: green;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .back-button {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .back-button button {
+            background-color: #efefef;
+            color: #262626;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Photo</h1>
 
-    {{-- Show success message --}}
-    @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
-
-    {{-- Show validation errors --}}
-    @if ($errors->any())
-        <div style="color: red;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="{{ asset('images/feed-icon.png') }}" alt="Logo">
+            <strong style="font-size: 1.2em;">InstaClone</strong>
         </div>
-    @endif
+    </div>
 
-    {{-- Upload Form --}}
-    <form action="{{ route('photos.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+    <div class="container">
+        <h2>Upload Photo</h2>
 
-        <label for="caption">Caption:</label><br>
-        <input type="text" name="caption" id="caption" required><br><br>
+        {{-- Show success message --}}
+        @if (session('success'))
+            <p class="feedback">{{ session('success') }}</p>
+        @endif
 
-        <label for="image">Choose Photo:</label><br>
-        <input type="file" name="image" id="image" accept="image/*" required><br><br>
+        {{-- Show validation errors --}}
+        @if ($errors->any())
+            <div class="error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>• {{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <button type="submit">Upload</button>
-    </form>
+        {{-- Upload Form --}}
+        <form action="{{ route('photos.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-    <br></br>
-    <button onclick="window.location.href='/feed';">
-    Feed
-    </button>
+            <label for="caption">Caption</label>
+            <input type="text" name="caption" id="caption" required>
+
+            <label for="image">Choose Photo</label>
+            <input type="file" name="image" id="image" accept="image/*" required>
+
+            <button type="submit">Upload</button>
+        </form>
+
+        <div class="back-button">
+            <button onclick="window.location.href='{{ url('/feed') }}';">Back to Feed</button>
+        </div>
+    </div>
 
 </body>
 </html>

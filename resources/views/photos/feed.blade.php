@@ -17,6 +17,10 @@
     <form method="GET" action="/profile" style="margin-top: 20px;">
         @csrf
     <button type="submit">Profile</button>
+    
+    <form method="GET" action="/upload" style="margin-top: 20px;">
+        @csrf
+    <button type="submit">Upload</button>
 
     <div style="margin-top: 20px;">
         
@@ -93,10 +97,6 @@
             @endauth
         </div>
     @endforeach
-    
-    <form method="GET" action="/upload" style="margin-top: 20px;">
-        @csrf
-        <button type="submit">Upload</button>
     </form>
 </body>
 </html>

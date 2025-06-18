@@ -5,13 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Photo;
 
-$photos = Photo::where('is_archived', false)
-               ->when($search, fn($query) => $query->where('caption', 'like', "%{$search}%"))
-               ->latest()
-               ->get();
-
 class PhotoController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+
+        $photos = Photo::where('is_archived', false)
+            ->when($search, function ($query, $search) {
+                return $query->where('caption', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->get();
+
+        return view('photos.index', compact('photos'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

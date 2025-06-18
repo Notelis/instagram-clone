@@ -25,6 +25,10 @@
     <button type="submit">Search</button>
     </form>
     <br>
+    <form method="GET" action="{{ route('photos.archived') }}" style="margin-top: 10px;">
+    <button type="submit">📚 Archived Photos</button>
+    </form>
+    <br>
 
     @foreach ($photos as $photo)
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
@@ -37,7 +41,34 @@
             @csrf
             <button type="submit">❤️ Like ({{ $photo->likes->count() }})</button>
         </form>
-        @endauth
+
+        @if ($photo->user_id === auth()->id())
+            @if ($photo->is_archived)
+                <form action="{{ route('photos.unarchive', $photo->photo_id) }}" method="POST" style="margin-top: 5px;">
+                    @csrf
+                    <button type="submit">🗑️ Unarchive</button>
+                </form>
+            @else
+                <form action="{{ route('photos.archive', $photo->photo_id) }}" method="POST" style="margin-top: 5px;">
+                    @csrf
+                    <button type="submit">🗂️ Archive</button>
+                </form>
+            @endif
+        @endif
+
+            @if (auth()->user()->savedPhotos->contains($photo))
+                <form action="{{ route('photos.unsave', $photo->photo_id) }}" method="POST">
+                    @csrf
+                    <button type="submit">🗑️ Unsave</button>
+                </form>
+            @else
+                <form action="{{ route('photos.save', $photo->photo_id) }}" method="POST">
+                    @csrf
+                    <button type="submit">💾 Save</button>
+                </form>
+            @endif
+
+    @endauth
     </div>
 
             <hr>

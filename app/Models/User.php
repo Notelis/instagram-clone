@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function savedPhotos()
 {
-    return $this->belongsToMany(Photo::class, 'saved_photos')->withTimestamps();
+    return $this->belongsToMany(Photo::class, 'photo_user', 'user_id', 'photo_id')->withTimestamps();
 }
 
     public function comments()

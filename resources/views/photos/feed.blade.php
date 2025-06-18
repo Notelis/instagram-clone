@@ -110,7 +110,14 @@
         </div>
         <div>
             @auth
-                👋 {{ auth()->user()->username }}
+                👋 
+                @if (auth()->user()->username == 'admin') {{-- atau kondisi spesifik lain --}}
+                    <a href="{{ url('/profile') }}">{{ auth()->user()->username }}</a>
+                @else
+                    <a href="{{ route('user.profile', ['username' => auth()->user()->username]) }}">
+                        {{ auth()->user()->username }}
+                    </a>
+                @endif
             @else
                 <a href="{{ route('login') }}">Login</a>
             @endauth
@@ -134,7 +141,13 @@
             <div class="photo-card">
                 <img src="{{ asset('storage/' . $photo->image_path) }}" alt="Photo">
                 <div class="photo-caption">
-                    <p><strong>{{ $photo->user->username ?? 'User' }}</strong></p>
+                    <p>
+                        <strong>
+                            <a href="{{ route('user.profile', ['username' => $photo->user->username]) }}" style="text-decoration: none; color: black;">
+                                {{ $photo->user->username ?? 'User' }}
+                            </a>
+                        </strong>
+                    </p>
                     <p>{{ $photo->caption }}</p>
                     <p style="color: gray; font-size: small;">{{ $photo->created_at->diffForHumans() }}</p>
 

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Photo;
 
+$photos = Photo::where('is_archived', false)
+               ->when($search, fn($query) => $query->where('caption', 'like', "%{$search}%"))
+               ->latest()
+               ->get();
+
 class PhotoController extends Controller
 {
     public function store(Request $request)
@@ -25,8 +30,9 @@ class PhotoController extends Controller
         return redirect()->back()->with('success', 'Photo Uploaded!');
 
     }
+    
     public function show(Post $post)
-        {
+    {
         $post->loadCount('likes'); 
         return view('posts.show', compact('post'));
         }

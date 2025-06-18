@@ -39,6 +39,7 @@ Route::get('/feed', function () {
     $search = request('search');
     // Jika ada query pencarian, filter foto berdasarkan caption
     $photos = Photo::with(['comments.user'])
+        ->where('is_archived', false)
         ->when($search, function ($q) use ($search) {
             $q->where('caption', 'like', '%' . $search . '%');
         })

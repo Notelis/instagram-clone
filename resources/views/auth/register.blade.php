@@ -27,21 +27,13 @@
         }
 
         .instagram-logo {
-<<<<<<< HEAD
             width: 175px; 
-=======
-            width: 175px; /* Sesuaikan sesuai kebutuhan */
->>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
             margin-bottom: 30px;
         }
 
         h2 {
-<<<<<<< HEAD
             display: none; 
-=======
             /* Sembunyikan H2 asli karena kita akan menggunakan gambar untuk logo atau intro text */
-            display: none;
->>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
         }
 
         .register-container p.intro-text {
@@ -72,10 +64,7 @@
             background-color: #0095f6;
             color: #fff;
             border: none;
-<<<<<<< HEAD
-=======
             border-radius: 8px; 
->>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
             padding: 10px 0;
             font-size: 14px;
             font-weight: 600;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Instagram Feed</title>
     <style>
@@ -183,14 +183,22 @@
             <div class="photo-card">
                 <img src="{{ asset('storage/' . $photo->image_path) }}" alt="Photo">
                 <div class="photo-caption">
-                    <p><strong>{{ $photo->user->username ?? '' }}</strong></p>
+                    <p>
+                        <strong>
+                            {{-- Jika Anda memiliki route 'user.profile' yang menerima username, gunakan ini: --}}
+                            {{-- <a href="{{ route('user.profile', ['username' => $photo->user->username]) }}" style="text-decoration: none; color: black;"> --}}
+                            {{-- Jika Anda hanya ingin ke /profile, gunakan ini: --}}
+                            <a href="/profile" style="text-decoration: none; color: black;">
+                                {{ $photo->user->username ?? '' }}
+                            </a>
+                        </strong>
+                    </p>
                     <p>{{ $photo->caption }}</p>
                     <p style="color: gray; font-size: small;">{{ $photo->created_at->diffForHumans() }}</p>
 
                     @auth
                         @php
                             // Cek apakah user yang login sudah me-like foto ini
-                            // Ini adalah perbaikan untuk "Call to undefined method App\Models\User::hasLiked()"
                             $userHasLiked = $photo->likes->contains('user_id', auth()->id());
                         @endphp
                         <form action="{{ route('photos.like', ['photo' => $photo->photo_id]) }}" method="POST">

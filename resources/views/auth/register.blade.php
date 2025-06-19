@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Register</title>
     <style>
@@ -7,10 +7,13 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fafafa;
             display: flex;
+            flex-direction: column; /* Mengubah menjadi column agar kotak register dan link login bisa disusun vertikal */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px 0; /* Menambahkan padding untuk responsivitas */
+            box-sizing: border-box;
         }
 
         .register-container {
@@ -24,12 +27,13 @@
         }
 
         .instagram-logo {
-            width: 175px; /* Adjust as needed */
+            width: 175px; /* Sesuaikan sesuai kebutuhan */
             margin-bottom: 30px;
         }
 
         h2 {
-            display: none; /* Hide the original H2 as we'll use an image for the logo */
+            /* Sembunyikan H2 asli karena kita akan menggunakan gambar untuk logo atau intro text */
+            display: none;
         }
 
         .register-container p.intro-text {
@@ -60,7 +64,7 @@
             background-color: #0095f6;
             color: #fff;
             border: none;
-            border-radius: 8px; /* Slightly more rounded for buttons */
+            border-radius: 8px; /* Sedikit lebih membulat untuk tombol */
             padding: 10px 0;
             font-size: 14px;
             font-weight: 600;
@@ -104,13 +108,11 @@
             font-weight: 600;
         }
 
-        .message {
+        /* Menggabungkan dan menyesuaikan gaya pesan error */
+        .message.error {
             margin-bottom: 15px;
             font-size: 14px;
             font-weight: 600;
-        }
-
-        .message.error {
             color: red;
         }
     </style>
@@ -121,6 +123,7 @@
 
         <p class="intro-text">Sign up to see photos and videos from your friends.</p>
 
+        {{-- Pesan Error Validasi --}}
         @if ($errors->any())
             <p class="message error">{{ $errors->first() }}</p>
         @endif
@@ -134,7 +137,8 @@
             <button type="submit">Register</button>
         </form>
 
-  </div>
+        <p class="terms-text">By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Data Policy</a> and <a href="#">Cookies Policy</a>.</p>
+    </div>
 
     <div class="login-link">
         Have an account? <a href="/login">Log in</a>

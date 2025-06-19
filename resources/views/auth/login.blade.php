@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Login</title>
     <style>
@@ -7,10 +7,13 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fafafa;
             display: flex;
+            flex-direction: column; /* Mengubah menjadi column agar kotak login dan link daftar bisa disusun vertikal */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px 0; /* Menambahkan padding untuk responsivitas */
+            box-sizing: border-box;
         }
 
         .login-container {
@@ -24,12 +27,13 @@
         }
 
         .instagram-logo {
-            width: 175px; /* Adjust as needed */
+            width: 175px; /* Sesuaikan sesuai kebutuhan */
             margin-bottom: 30px;
         }
 
         h2 {
-            display: none; /* Hide the original H2 as we'll use an image for the logo */
+            /* Sembunyikan H2 asli karena kita akan menggunakan gambar untuk logo */
+            display: none;
         }
 
         .login-container form {
@@ -52,7 +56,7 @@
             background-color: #0095f6;
             color: #fff;
             border: none;
-            border-radius: 8px; /* Slightly more rounded for buttons */
+            border-radius: 8px; /* Sedikit lebih membulat untuk tombol */
             padding: 10px 0;
             font-size: 14px;
             font-weight: 600;
@@ -119,6 +123,7 @@
             font-weight: 600;
         }
 
+        /* Menggabungkan dan menyesuaikan gaya pesan success/error */
         .message {
             margin-bottom: 15px;
             font-size: 14px;
@@ -136,24 +141,29 @@
 </head>
 <body>
     <div class="login-container">
-        <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="Instagram" class="instagram-logo">
+        <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
 
+        {{-- Pesan Sukses --}}
         @if (session('success'))
             <p class="message success">{{ session('success') }}</p>
         @endif
 
+        {{-- Pesan Error Validasi --}}
         @if ($errors->any())
             <p class="message error">{{ $errors->first() }}</p>
         @endif
 
         <form method="POST" action="/login">
             @csrf
-            <input type="text" name="email" placeholder="Email" required><br>
+            <input type="text" name="email" placeholder="Phone number, username, or email" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
 
             <button type="submit">Log In</button>
         </form>
 
+        <div class="separator"><span>OR</span></div>
+
+        <a href="#" class="forgot-password">Forgot password?</a>
     </div>
 
     <div class="signup-link">

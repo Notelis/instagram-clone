@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Instagram Feed</title>
     <style>
-        /* CSS DARI KODE ASLI ANDA SEBELUMNYA */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #fafafa;
@@ -63,40 +62,35 @@
             margin-top: 5px;
         }
 
-        /* --- Perubahan atau Penambahan CSS untuk Like Button dan Profile Button --- */
         .like-button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.1em; /* Ukuran hati default */
+            font-size: 1.1em; 
             padding: 5px 0;
-            /* Flexbox untuk menata ikon dan teks like count */
             display: flex;
             align-items: center;
-            gap: 5px; /* Jarak antara ikon dan teks */
+            gap: 5px;
         }
-        .like-button span { /* Untuk teks jumlah like */
-            color: #262626; /* Warna teks default */
+        .like-button span { 
+            color: #262626; 
             font-size: 0.9em;
         }
 
         .like-button.liked {
-            color: #ed4956; /* Warna merah untuk hati yang sudah di-like */
+            color: #ed4956; 
         }
         .like-button.not-liked {
-            color: #262626; /* Warna hitam/abu-abu untuk hati yang belum di-like */
+            color: #262626; 
         }
-
-        /* Styling untuk Archive/Unarchive/Save/Unsave buttons agar konsisten */
-        /* Anda bisa menyesuaikan warna atau gaya ini */
         .action-btn {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 1.1em;
             padding: 5px 0;
-            margin-left: 10px; /* Jarak antar tombol aksi */
-            color: #0095f6; /* Contoh warna biru untuk tombol aksi */
+            margin-left: 10px; 
+            color: #0095f6; 
         }
         .action-btn:hover {
             opacity: 0.8;
@@ -130,9 +124,9 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* Style untuk tombol "Profile" baru */
+    
         .profile-nav-button {
-            background-color: #0095f6; /* Warna biru konsisten dengan tombol lain */
+            background-color: #0095f6; 
             color: white;
             border: none;
             border-radius: 5px;
@@ -140,9 +134,9 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            text-decoration: none; /* Karena ini tag <a> */
-            display: inline-block; /* Agar padding bekerja */
-            margin-left: 20px; /* Jarak dari elemen sebelumnya */
+            text-decoration: none; 
+            display: inline-block; 
+            margin-left: 20px; 
             transition: background-color 0.2s ease;
         }
 
@@ -183,14 +177,22 @@
             <div class="photo-card">
                 <img src="{{ asset('storage/' . $photo->image_path) }}" alt="Photo">
                 <div class="photo-caption">
-                    <p><strong>{{ $photo->user->username ?? '' }}</strong></p>
+                    <p>
+                        <strong>
+                            {{-- Jika Anda memiliki route 'user.profile' yang menerima username, gunakan ini: --}}
+                            {{-- <a href="{{ route('user.profile', ['username' => $photo->user->username]) }}" style="text-decoration: none; color: black;"> --}}
+                            {{-- Jika Anda hanya ingin ke /profile, gunakan ini: --}}
+                            <a href="/profile" style="text-decoration: none; color: black;">
+                                {{ $photo->user->username ?? '' }}
+                            </a>
+                        </strong>
+                    </p>
                     <p>{{ $photo->caption }}</p>
                     <p style="color: gray; font-size: small;">{{ $photo->created_at->diffForHumans() }}</p>
 
                     @auth
                         @php
                             // Cek apakah user yang login sudah me-like foto ini
-                            // Ini adalah perbaikan untuk "Call to undefined method App\Models\User::hasLiked()"
                             $userHasLiked = $photo->likes->contains('user_id', auth()->id());
                         @endphp
                         <form action="{{ route('photos.like', ['photo' => $photo->photo_id]) }}" method="POST">

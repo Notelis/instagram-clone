@@ -1,112 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Instagram Clone</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #fafafa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0;
-            margin: 0;
-        }
-
-        .navbar {
-            width: 100%;
-            padding: 10px 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #dbdbdb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .login-container {
-            margin-top: 60px;
-            width: 100%;
-            max-width: 350px;
-            background-color: #fff;
-            border: 1px solid #dbdbdb;
-            padding: 30px;
-            text-align: center;
-        }
-
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #dbdbdb;
-            border-radius: 4px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #0095f6;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .bottom-text {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .error-message, .success-message {
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .error-message {
-            color: red;
-        }
-
-        .success-message {
-            color: green;
-        }
-    </style>
+    <title>Login</title>
 </head>
 <body>
+    <h2>Login</h2>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
-            <strong style="font-size: 1.2em;">Instagram</strong>
-        </div>
-        <div></div> {{-- Kosongin biar kanan rata --}}
-    </div>
+    @if (session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
+    
+    @if ($errors->any())
+        <p style="color: red;">{{ $errors->first() }}</p>
+    @endif
 
-    <!-- Login Form -->
-    <div class="login-container">
-        <h2>Login</h2>
+    <form method="POST" action="/login">
+        @csrf
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
 
-        @if (session('success'))
-            <div class="success-message">{{ session('success') }}</div>
-        @endif
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
 
-        @if ($errors->any())
-            <div class="error-message">{{ $errors->first() }}</div>
-        @endif
+        <button type="submit">Login</button>
+    </form>
 
-        <form method="POST" action="/login">
-            @csrf
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Log In</button>
-        </form>
-
-        <div class="bottom-text">
-            Belum punya akun? <a href="/register">Daftar sekarang</a>
-        </div>
-    </div>
-
+    <p>Belum punya akun? <a href="/register">Register</a></p>
 </body>
 </html>

@@ -20,12 +20,4 @@ class UserController extends Controller
 
         return redirect('/profile')->with('success', 'Bio updated!');
     }
-
-        public function showPublicProfile($username)
-    {
-        $user = \App\Models\User::where('username', $username)->firstOrFail();
-        $photos = $user->photos()->latest()->get();
-
-        return view('profile', compact('user', 'photos'));
-    }
 }

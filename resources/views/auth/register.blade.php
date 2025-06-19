@@ -1,103 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Register - Instagram Clone</title>
+    <title>Register</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fafafa;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Mengubah menjadi column agar kotak register dan link login bisa disusun vertikal */
+            justify-content: center;
             align-items: center;
-            padding: 0;
+            min-height: 100vh;
             margin: 0;
-        }
-
-        .navbar {
-            width: 100%;
-            padding: 10px 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #dbdbdb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 20px 0; /* Menambahkan padding untuk responsivitas */
+            box-sizing: border-box;
         }
 
         .register-container {
-            margin-top: 60px;
-            width: 100%;
-            max-width: 350px;
             background-color: #fff;
             border: 1px solid #dbdbdb;
-            padding: 30px;
+            border-radius: 3px;
+            padding: 40px;
             text-align: center;
+            width: 350px;
+            box-sizing: border-box;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+        .instagram-logo {
+<<<<<<< HEAD
+            width: 175px; 
+=======
+            width: 175px; /* Sesuaikan sesuai kebutuhan */
+>>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
+            margin-bottom: 30px;
+        }
+
+        h2 {
+<<<<<<< HEAD
+            display: none; 
+=======
+            /* Sembunyikan H2 asli karena kita akan menggunakan gambar untuk logo atau intro text */
+            display: none;
+>>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
+        }
+
+        .register-container p.intro-text {
+            color: #8e8e8e;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 20px;
+            margin: 0 40px 20px;
+        }
+
+        .register-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .register-container input {
+            background-color: #fafafa;
             border: 1px solid #dbdbdb;
-            border-radius: 4px;
-        }
-
-        button {
+            border-radius: 3px;
+            padding: 10px 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
             width: 100%;
-            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .register-container button {
             background-color: #0095f6;
-            color: white;
-            font-weight: bold;
+            color: #fff;
             border: none;
-            border-radius: 4px;
+<<<<<<< HEAD
+=======
+            border-radius: 8px; 
+>>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s ease;
         }
 
-        .bottom-text {
-            margin-top: 20px;
+        .register-container button:hover {
+            background-color: #007acb;
+        }
+
+        .terms-text {
+            color: #8e8e8e;
+            font-size: 12px;
+            line-height: 16px;
+            margin: 10px 40px;
+        }
+
+        .terms-text a {
+            color: #00376b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 20px;
+            border-radius: 8px; 
+            text-align: center;
+            width: 350px;
+            margin-top: 10px;
             font-size: 14px;
+            box-sizing: border-box;
         }
 
-        .error-message {
-            margin-bottom: 10px;
+        .login-link a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Menggabungkan dan menyesuaikan gaya pesan error */
+        .message.error {
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
             color: red;
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
-
-    <!-- Navbar -->
-    <div class="navbar">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
-            <strong style="font-size: 1.2em;">Instagram</strong>
-        </div>
-        <div></div>
-    </div>
-
-    <!-- Register Form -->
     <div class="register-container">
-        <h2>Register</h2>
+        <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
+        <p class="intro-text">Sign up to see photos and videos from your friends.</p>
 
+        {{-- Pesan Error Validasi --}}
         @if ($errors->any())
-            <div class="error-message">{{ $errors->first() }}</div>
+            <p class="message error">{{ $errors->first() }}</p>
         @endif
 
         <form method="POST" action="/register">
             @csrf
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password (min 8 karakter)" required>
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+
             <button type="submit">Register</button>
         </form>
 
-        <div class="bottom-text">
-            Sudah punya akun? <a href="/login">Login di sini</a>
-        </div>
     </div>
 
+    <div class="login-link">
+        Have an account? <a href="/login">Log in</a>
+    </div>
 </body>
 </html>

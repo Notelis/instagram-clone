@@ -12,8 +12,7 @@ class PhotoController extends Controller
     {
         $search = $request->input('search');
 
-        $photos = Photo::with('user')
-            ->where('is_archived', false)
+        $photos = Photo::where('is_archived', false)
             ->when($search, function ($query, $search) {
                 return $query->where('caption', 'like', "%{$search}%");
             })
@@ -47,4 +46,6 @@ class PhotoController extends Controller
         $post->loadCount('likes'); 
         return view('posts.show', compact('post'));
         }
+    
+        
 }

@@ -74,7 +74,7 @@
             border: none;
 <<<<<<< HEAD
 =======
-            border-radius: 8px; /* Sedikit lebih membulat untuk tombol */
+            border-radius: 8px; 
 >>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
             padding: 10px 0;
             font-size: 14px;
@@ -148,7 +148,6 @@
             <button type="submit">Register</button>
         </form>
 
-        <p class="terms-text">By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Data Policy</a> and <a href="#">Cookies Policy</a>.</p>
     </div>
 
     <div class="login-link">

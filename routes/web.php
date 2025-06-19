@@ -34,13 +34,20 @@ Route::post('/photos', [PhotoController::class, 'store'])->name('photos.store');
 // Menampilkan feed (semua foto)
 Route::get('/feed', function () {
     $search = request('search');
-    // Jika ada query pencarian, filter foto berdasarkan caption
     $photos = Photo::with(['comments.user'])
+        ->where(function ($query) {
+            $query->where('is_archived', false)
+                  ->orWhere(function ($q) {
+                      $q->where('user_id', '!=', auth()->id())
+                        ->where('is_archived', true);
+                  });
+        })
         ->when($search, function ($q) use ($search) {
             $q->where('caption', 'like', '%' . $search . '%');
         })
         ->latest()
         ->get();
+
     $user = Auth::user();
     return view('photos.feed', compact('photos', 'user'));
 })->middleware('auth')->name('photos.feed');

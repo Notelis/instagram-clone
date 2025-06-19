@@ -46,4 +46,6 @@ class PhotoController extends Controller
         $post->loadCount('likes'); 
         return view('posts.show', compact('post'));
         }
+    
+        
 }

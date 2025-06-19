@@ -110,7 +110,7 @@
         </div>
         <div>
             @auth
-                👋 
+                👤 
                 @if (auth()->user()->username == 'admin') {{-- atau kondisi spesifik lain --}}
                     <a href="{{ url('/profile') }}">{{ auth()->user()->username }}</a>
                 @else

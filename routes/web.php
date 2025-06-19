@@ -17,9 +17,6 @@ Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout']);
 
-// profile from feed
-Route::get('/user/{username}', [UserController::class, 'showPublicProfile'])->name('user.profile');
-
 // Profile (hanya jika login)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'showProfile']);
@@ -39,7 +36,6 @@ Route::get('/feed', function () {
     $search = request('search');
     // Jika ada query pencarian, filter foto berdasarkan caption
     $photos = Photo::with(['comments.user'])
-        ->where('is_archived', false)
         ->when($search, function ($q) use ($search) {
             $q->where('caption', 'like', '%' . $search . '%');
         })

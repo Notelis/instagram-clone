@@ -27,13 +27,21 @@
         }
 
         .instagram-logo {
+<<<<<<< HEAD
+            width: 175px; 
+=======
             width: 175px; /* Sesuaikan sesuai kebutuhan */
+>>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
             margin-bottom: 30px;
         }
 
         h2 {
+<<<<<<< HEAD
+            display: none; 
+=======
             /* Sembunyikan H2 asli karena kita akan menggunakan gambar untuk logo atau intro text */
             display: none;
+>>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
         }
 
         .register-container p.intro-text {
@@ -64,7 +72,10 @@
             background-color: #0095f6;
             color: #fff;
             border: none;
-            border-radius: 8px; /* Sedikit lebih membulat untuk tombol */
+<<<<<<< HEAD
+=======
+            border-radius: 8px; 
+>>>>>>> 95b6f0045dd547d413fa90a9d4531ba4e83b1f2e
             padding: 10px 0;
             font-size: 14px;
             font-weight: 600;
@@ -95,6 +106,7 @@
             border: 1px solid #dbdbdb;
             border-radius: 3px;
             padding: 20px;
+            border-radius: 8px; 
             text-align: center;
             width: 350px;
             margin-top: 10px;
@@ -119,8 +131,7 @@
 </head>
 <body>
     <div class="register-container">
-        <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="Instagram" class="instagram-logo">
-
+        <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
         <p class="intro-text">Sign up to see photos and videos from your friends.</p>
 
         {{-- Pesan Error Validasi --}}
@@ -137,7 +148,6 @@
             <button type="submit">Register</button>
         </form>
 
-        <p class="terms-text">By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Data Policy</a> and <a href="#">Cookies Policy</a>.</p>
     </div>
 
     <div class="login-link">

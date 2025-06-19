@@ -85,17 +85,6 @@
             color: #262626;
         }
     </style>
-    <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function(){
-                const preview = document.getElementById('preview');
-                preview.src = reader.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-</script>
 </head>
 <body>
 
@@ -134,8 +123,7 @@
             <input type="text" name="caption" id="caption" required>
 
             <label for="image">Choose Photo</label>
-            <input type="file" name="image" id="image" accept="image/*" required onchange="previewImage(event)">
-            <img id="preview" src="#" alt="Image Preview" style="display: none; margin-top: 15px; max-width: 100%; border-radius: 8px;"/>
+            <input type="file" name="image" id="image" accept="image/*" required>
 
             <button type="submit">Upload</button>
         </form>

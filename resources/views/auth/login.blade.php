@@ -141,7 +141,7 @@
 </head>
 <body>
     <div class="login-container">
-        <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="Instagram" class="instagram-logo">
+        <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
 
         {{-- Pesan Sukses --}}
         @if (session('success'))
@@ -155,15 +155,12 @@
 
         <form method="POST" action="/login">
             @csrf
-            <input type="text" name="email" placeholder="Phone number, username, or email" required><br>
+            <input type="text" name="email" placeholder="Email" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
 
             <button type="submit">Log In</button>
         </form>
 
-        <div class="separator"><span>OR</span></div>
-
-        <a href="#" class="forgot-password">Forgot password?</a>
     </div>
 
     <div class="signup-link">

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Instagram Feed</title>
     <style>
+        /* CSS DARI KODE ASLI ANDA SEBELUMNYA */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #fafafa;
@@ -62,13 +63,43 @@
             margin-top: 5px;
         }
 
+        /* --- Perubahan atau Penambahan CSS untuk Like Button dan Profile Button --- */
         .like-button {
             background: none;
             border: none;
-            color: red;
+            cursor: pointer;
+            font-size: 1.1em; /* Ukuran hati default */
+            padding: 5px 0;
+            /* Flexbox untuk menata ikon dan teks like count */
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Jarak antara ikon dan teks */
+        }
+        .like-button span { /* Untuk teks jumlah like */
+            color: #262626; /* Warna teks default */
+            font-size: 0.9em;
+        }
+
+        .like-button.liked {
+            color: #ed4956; /* Warna merah untuk hati yang sudah di-like */
+        }
+        .like-button.not-liked {
+            color: #262626; /* Warna hitam/abu-abu untuk hati yang belum di-like */
+        }
+
+        /* Styling untuk Archive/Unarchive/Save/Unsave buttons agar konsisten */
+        /* Anda bisa menyesuaikan warna atau gaya ini */
+        .action-btn {
+            background: none;
+            border: none;
             cursor: pointer;
             font-size: 1.1em;
             padding: 5px 0;
+            margin-left: 10px; /* Jarak antar tombol aksi */
+            color: #0095f6; /* Contoh warna biru untuk tombol aksi */
+        }
+        .action-btn:hover {
+            opacity: 0.8;
         }
 
         .bottom-nav {
@@ -98,11 +129,30 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        /* Style untuk tombol "Profile" baru */
+        .profile-nav-button {
+            background-color: #0095f6; /* Warna biru konsisten dengan tombol lain */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none; /* Karena ini tag <a> */
+            display: inline-block; /* Agar padding bekerja */
+            margin-left: 20px; /* Jarak dari elemen sebelumnya */
+            transition: background-color 0.2s ease;
+        }
+
+        .profile-nav-button:hover {
+            background-color: #007acb;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <div class="navbar">
         <div style="display: flex; align-items: center; gap: 10px;">
             <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
@@ -110,24 +160,17 @@
         </div>
         <div>
             @auth
-                👤 
-                @if (auth()->user()->username == 'admin') {{-- atau kondisi spesifik lain --}}
-                    <a href="{{ url('/profile') }}">{{ auth()->user()->username }}</a>
-                @else
-                    <a href="{{ route('user.profile', ['username' => auth()->user()->username]) }}">
-                        {{ auth()->user()->username }}
-                    </a>
-                @endif
+                👋 {{ auth()->user()->username }}
+                <a href="/profile" class="profile-nav-button">Profile</a>
             @else
                 <a href="{{ route('login') }}">Login</a>
             @endauth
         </div>
     </div>
 
-    <!-- Search bar -->
     <div class="search-bar">
         <form method="GET" action="{{ route('photos.feed') }}">
-            <input type="text" name="query" value="{{ $query ?? '' }}" placeholder="Search">
+            <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search">
             <button type="submit">Search</button>
         </form>
         <form method="GET" action="{{ route('photos.archived') }}" style="margin-top: 10px;">
@@ -135,7 +178,6 @@
         </form>
     </div>
 
-    <!-- Feed -->
     <div class="feed-grid">
         @foreach ($photos as $photo)
             <div class="photo-card">
@@ -143,8 +185,11 @@
                 <div class="photo-caption">
                     <p>
                         <strong>
-                            <a href="{{ route('user.profile', ['username' => $photo->user->username]) }}" style="text-decoration: none; color: black;">
-                                {{ $photo->user->username ?? 'User' }}
+                            {{-- Jika Anda memiliki route 'user.profile' yang menerima username, gunakan ini: --}}
+                            {{-- <a href="{{ route('user.profile', ['username' => $photo->user->username]) }}" style="text-decoration: none; color: black;"> --}}
+                            {{-- Jika Anda hanya ingin ke /profile, gunakan ini: --}}
+                            <a href="/profile" style="text-decoration: none; color: black;">
+                                {{ $photo->user->username ?? '' }}
                             </a>
                         </strong>
                     </p>
@@ -152,46 +197,50 @@
                     <p style="color: gray; font-size: small;">{{ $photo->created_at->diffForHumans() }}</p>
 
                     @auth
+                        @php
+                            // Cek apakah user yang login sudah me-like foto ini
+                            $userHasLiked = $photo->likes->contains('user_id', auth()->id());
+                        @endphp
                         <form action="{{ route('photos.like', ['photo' => $photo->photo_id]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="like-button">❤️ Like ({{ $photo->likes->count() }})</button>
+                            <button type="submit" class="like-button {{ $userHasLiked ? 'liked' : 'not-liked' }}">
+                                {{-- Ikon hati akan berubah berdasarkan status like --}}
+                                {{ $userHasLiked ? '❤️' : '🤍' }} <span>({{ $photo->likes->count() }})</span>
+                            </button>
                         </form>
 
-                        <!-- Archive or Unarchive -->
                         @if ($photo->user_id === auth()->id())
                             @if ($photo->is_archived)
                                 <form action="{{ route('photos.unarchive', $photo->photo_id) }}" method="POST">
                                     @csrf
-                                    <button type="submit">🗑️ Unarchive</button>
+                                    <button type="submit" class="action-btn">🗑️ Unarchive</button>
                                 </form>
                             @else
                                 <form action="{{ route('photos.archive', $photo->photo_id) }}" method="POST">
                                     @csrf
-                                    <button type="submit">🗂️ Archive</button>
+                                    <button type="submit" class="action-btn">🗂️ Archive</button>
                                 </form>
                             @endif
                         @endif
 
-                        <!-- Save or Unsave -->
                         @if (auth()->user()->savedPhotos->contains($photo))
                             <form action="{{ route('photos.unsave', $photo->photo_id) }}" method="POST">
                                 @csrf
-                                <button type="submit">🗑️ Unsave</button>
+                                <button type="submit" class="action-btn">🗑️ Unsave</button>
                             </form>
                         @else
                             <form action="{{ route('photos.save', $photo->photo_id) }}" method="POST">
                                 @csrf
-                                <button type="submit">💾 Save</button>
+                                <button type="submit" class="action-btn">💾 Save</button>
                             </form>
                         @endif
                     @endauth
                 </div>
 
-                <!-- Komentar -->
                 <div class="comment-section">
                     <h4>Komentar:</h4>
                     @forelse ($photo->comments as $comment)
-                        <p><strong>{{ $comment->user->username ?? 'Anonim' }}</strong>: {{ $comment->comment_text }}<br>
+                        <p><strong>{{ $comment->user->username ?? '' }}</strong>: {{ $comment->comment_text }}<br>
                         <small>{{ $comment->created_at->diffForHumans() }}</small></p>
                     @empty
                         <p><em>Belum ada komentar</em></p>
@@ -210,7 +259,6 @@
         @endforeach
     </div>
 
-    <!-- Bottom Nav -->
     <div class="bottom-nav">
         <button class="upload-button" onclick="window.location.href='/upload';">+</button>
     </div>

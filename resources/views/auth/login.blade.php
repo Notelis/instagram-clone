@@ -1,112 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Instagram Clone</title>
+    <title>Login</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fafafa;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Mengubah menjadi column agar kotak login dan link daftar bisa disusun vertikal */
+            justify-content: center;
             align-items: center;
-            padding: 0;
+            min-height: 100vh;
             margin: 0;
-        }
-
-        .navbar {
-            width: 100%;
-            padding: 10px 20px;
-            background-color: #fff;
-            border-bottom: 1px solid #dbdbdb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 20px 0; /* Menambahkan padding untuk responsivitas */
+            box-sizing: border-box;
         }
 
         .login-container {
-            margin-top: 60px;
-            width: 100%;
-            max-width: 350px;
             background-color: #fff;
             border: 1px solid #dbdbdb;
-            padding: 30px;
+            border-radius: 3px;
+            padding: 40px;
             text-align: center;
+            width: 350px;
+            box-sizing: border-box;
         }
 
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+        .instagram-logo {
+            width: 175px; /* Sesuaikan sesuai kebutuhan */
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            /* Sembunyikan H2 asli karena kita akan menggunakan gambar untuk logo */
+            display: none;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container input {
+            background-color: #fafafa;
             border: 1px solid #dbdbdb;
-            border-radius: 4px;
-        }
-
-        button {
+            border-radius: 3px;
+            padding: 10px 8px;
+            margin-bottom: 6px;
+            font-size: 14px;
             width: 100%;
-            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .login-container button {
             background-color: #0095f6;
-            color: white;
-            font-weight: bold;
+            color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px; /* Sedikit lebih membulat untuk tombol */
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s ease;
         }
 
-        .bottom-text {
-            margin-top: 20px;
+        .login-container button:hover {
+            background-color: #007acb;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .separator:not(:empty)::before {
+            margin-right: .25em;
+        }
+
+        .separator:not(:empty)::after {
+            margin-left: .25em;
+        }
+
+        .separator span {
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .forgot-password {
+            font-size: 12px;
+            color: #00376b;
+            margin-top: 12px;
+            text-decoration: none;
+        }
+
+        .signup-link {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 20px;
+            text-align: center;
+            width: 350px;
+            margin-top: 10px;
             font-size: 14px;
+            box-sizing: border-box;
         }
 
-        .error-message, .success-message {
-            margin-bottom: 10px;
+        .signup-link a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Menggabungkan dan menyesuaikan gaya pesan success/error */
+        .message {
+            margin-bottom: 15px;
             font-size: 14px;
+            font-weight: 600;
         }
 
-        .error-message {
-            color: red;
-        }
-
-        .success-message {
+        .message.success {
             color: green;
+        }
+
+        .message.error {
+            color: red;
         }
     </style>
 </head>
 <body>
-
-    <!-- Navbar -->
-    <div class="navbar">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="{{ asset('images/feed-icon.png') }}" alt="Logo" style="height: 30px;">
-            <strong style="font-size: 1.2em;">Instagram</strong>
-        </div>
-        <div></div> {{-- Kosongin biar kanan rata --}}
-    </div>
-
-    <!-- Login Form -->
     <div class="login-container">
-        <h2>Login</h2>
+        <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" alt="Instagram" class="instagram-logo">
 
+        {{-- Pesan Sukses --}}
         @if (session('success'))
-            <div class="success-message">{{ session('success') }}</div>
+            <p class="message success">{{ session('success') }}</p>
         @endif
 
+        {{-- Pesan Error Validasi --}}
         @if ($errors->any())
-            <div class="error-message">{{ $errors->first() }}</div>
+            <p class="message error">{{ $errors->first() }}</p>
         @endif
 
         <form method="POST" action="/login">
             @csrf
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" name="email" placeholder="Phone number, username, or email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+
             <button type="submit">Log In</button>
         </form>
 
-        <div class="bottom-text">
-            Belum punya akun? <a href="/register">Daftar sekarang</a>
-        </div>
+        <div class="separator"><span>OR</span></div>
+
+        <a href="#" class="forgot-password">Forgot password?</a>
     </div>
 
+    <div class="signup-link">
+        Don't have an account? <a href="/register">Sign up</a>
+    </div>
 </body>
 </html>

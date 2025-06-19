@@ -88,6 +88,7 @@
         }
 
         /* Styling untuk Archive/Unarchive/Save/Unsave buttons agar konsisten */
+        /* Anda bisa menyesuaikan warna atau gaya ini */
         .action-btn {
             background: none;
             border: none;
@@ -169,7 +170,7 @@
 
     <div class="search-bar">
         <form method="GET" action="{{ route('photos.feed') }}">
-            <input type="text" name="query" value="{{ $query ?? '' }}" placeholder="Search">
+            <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search">
             <button type="submit">Search</button>
         </form>
         <form method="GET" action="{{ route('photos.archived') }}" style="margin-top: 10px;">
@@ -188,12 +189,14 @@
 
                     @auth
                         @php
-                            // Check if the authenticated user has liked this photo
+                            // Cek apakah user yang login sudah me-like foto ini
+                            // Ini adalah perbaikan untuk "Call to undefined method App\Models\User::hasLiked()"
                             $userHasLiked = $photo->likes->contains('user_id', auth()->id());
                         @endphp
                         <form action="{{ route('photos.like', ['photo' => $photo->photo_id]) }}" method="POST">
                             @csrf
                             <button type="submit" class="like-button {{ $userHasLiked ? 'liked' : 'not-liked' }}">
+                                {{-- Ikon hati akan berubah berdasarkan status like --}}
                                 {{ $userHasLiked ? '❤️' : '🤍' }} <span>({{ $photo->likes->count() }})</span>
                             </button>
                         </form>
